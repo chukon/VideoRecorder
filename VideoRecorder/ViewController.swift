@@ -98,22 +98,34 @@ class ViewController: UIViewController {
     
     let screenWidth = UIScreen.mainScreen().bounds.size.width
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        //<#code#>
+        if let touch = touches.first as? UITouch {
+           // DismissKeyboard()
+            // draghair.center = touch.locationInView(self.view)
+            let touchPer = touchPercent(touch)
+            focusTo(Float(touchPer.x))
+            updateDeviceSettings(Float(touchPer.x), isoValue: Float(touchPer.x))
+            
+        }
+        super.touchesBegan(touches , withEvent:event)
         
-        let touchPer = touchPercent(touches.anyObject() as UITouch)
-        focusTo(Float(touchPer.x))
-        updateDeviceSettings(Float(touchPer.x), isoValue: Float(touchPer.x))
-        
+       
         
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touchCount = touches.count
+        let touch = touches.first as! UITouch
+        let tapCount = touch.tapCount
+        //////////////////////
+        let touchPer = touchPercent(touch)
         
-        let touchPer = touchPercent(touches.anyObject() as UITouch)
-    
         focusTo(Float(touchPer.x))
         updateDeviceSettings(Float(touchPer.x), isoValue: Float(touchPer.x))
     }
+    
     
     func touchPercent(touch:UITouch) -> CGPoint {
         
